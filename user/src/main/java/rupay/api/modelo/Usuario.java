@@ -1,7 +1,5 @@
 package rupay.api.modelo;
 
-import java.util.Date;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,21 +9,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "refeicao")
+@Table(name = "usuario")
 @Getter
 @Setter
-public class RefeicaoModelo {
-
-    public enum TipoRefeicao  {
-        ALMOCO, JANTAR;
-    }
-
+public class Usuario{
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private TipoRefeicao tipoRefeicao;
-    private String descricao;
-    private float valor;
-    private Date data;
-
+    private String login;
+    private String senha;
+    private String email;
 }
