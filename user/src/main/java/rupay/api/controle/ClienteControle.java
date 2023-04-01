@@ -40,9 +40,4 @@ public class ClienteControle {
     public Iterable<ClienteModelo> listar(){
         return serv.listar();
     }
-
-    @GetMapping("/")
-    public String rota(){
-        return "Api cliente rodou";
-    }
 }

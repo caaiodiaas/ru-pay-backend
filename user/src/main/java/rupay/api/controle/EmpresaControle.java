@@ -10,34 +10,34 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import rupay.api.modelo.RefeicaoModelo;
 import rupay.api.modelo.RespostaModelo;
-import rupay.api.servico.RefeicaoServico;
+import rupay.api.modelo.EmpresaModelo;
+import rupay.api.servico.EmpresaServico;
+
 
 @RestController
-public class RefeicaoControle {
-
+public class EmpresaControle {
+    
     @Autowired
-    private RefeicaoServico serv;
+    private EmpresaServico serv;
 
-    @DeleteMapping("/refeicao/remover/{id}")
+    @DeleteMapping("/empresa/remover/{id}")
     public ResponseEntity<RespostaModelo> remover(@PathVariable long id){
         return serv.remover(id);
     }
 
-    @PutMapping("/refeicao/alterar")
-    public ResponseEntity<?> alterar(@RequestBody RefeicaoModelo model){
-        return serv.cadastrarAlterar(model, "alterar");
+    @PutMapping("/empresa/alterar")
+    public ResponseEntity<?> alterar(@RequestBody EmpresaModelo model){
+        return serv.cadastrarAlterar(model,"alterar");
     }
 
-    @PostMapping("/refeicao/cadastrar")
-    public ResponseEntity<?> cadastrar(@RequestBody RefeicaoModelo model){
-        return serv.cadastrarAlterar(model, "cadastrar");
+    @PostMapping("/empresa/cadastrar")
+    public ResponseEntity<?> cadastrar(@RequestBody EmpresaModelo model){
+        return serv.cadastrarAlterar(model,"cadastrar");
     }
 
-    @GetMapping("/refeicao/listar")
-    public Iterable<RefeicaoModelo> listar(){
+    @GetMapping("/empresa/listar")
+    public Iterable<EmpresaModelo> listar(){
         return serv.listar();
     }
-
 }

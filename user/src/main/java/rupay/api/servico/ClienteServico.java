@@ -20,7 +20,7 @@ public class ClienteServico {
     private RespostaModelo resp;
 
 
-    //Cadastrar e Editar Usuários
+    //Cadastrar e Editar Clientes
     public ResponseEntity<?> cadastrarAlterar(ClienteModelo model,String acao){
         if(model.getLogin().equals("")){
             resp.setMensagem("O login é obrigatório");
@@ -38,12 +38,12 @@ public class ClienteServico {
         }
     }
 
-    //Listar Usuários
+    //Listar Clientes
     public Iterable<ClienteModelo> listar(){
         return repo.findAll();
     }
 
-    //Remover Usuários
+    //Remover Clientes
     public ResponseEntity<RespostaModelo> remover(long id){
         repo.deleteById(id);
         resp.setMensagem("Produto Removido");

@@ -9,15 +9,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "usuario")
+@Table(name="empresa")
 @Getter
 @Setter
-public class Usuario{
-    
+public class EmpresaModelo{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String login;
     private String senha;
     private String email;
+
+    private String nomeResponsavel;
+    private String nomeEmpresa;
+    private String cnpj;
+    private String universidade;
+    private String codigo;
+
 }
