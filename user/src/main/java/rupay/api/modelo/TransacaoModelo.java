@@ -2,6 +2,8 @@ package rupay.api.modelo;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +28,7 @@ public class TransacaoModelo{
     
     @ManyToOne
     @JoinColumn(name = "id_carteira")
+    @JsonBackReference
     private CarteiraModelo carteira;
 
 }

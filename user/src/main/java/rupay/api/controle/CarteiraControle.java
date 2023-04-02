@@ -1,5 +1,7 @@
 package rupay.api.controle;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,8 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import rupay.api.modelo.RespostaModelo;
 import rupay.api.modelo.CarteiraModelo;
+import rupay.api.modelo.RespostaModelo;
 import rupay.api.servico.CarteiraServico;
 
 
@@ -20,11 +22,6 @@ public class CarteiraControle {
     
     @Autowired
     private CarteiraServico serv;
-
-    @DeleteMapping("/carteira/remover/{id}")
-    public ResponseEntity<RespostaModelo> remover(@PathVariable long id){
-        return serv.remover(id);
-    }
 
     @PutMapping("/carteira/alterar")
     public ResponseEntity<?> alterar(@RequestBody CarteiraModelo model){
@@ -39,6 +36,16 @@ public class CarteiraControle {
     @GetMapping("/carteira/listar")
     public Iterable<CarteiraModelo> listar(){
         return serv.listar();
+    }
+
+    @GetMapping("/carteira/buscar/{id}")
+    public Optional<CarteiraModelo> buscar(@PathVariable long id){
+        return serv.buscar(id);
+    }
+
+    @DeleteMapping("/carteira/remover/{id}")
+    public ResponseEntity<RespostaModelo> remover(@PathVariable long id){
+        return serv.remover(id);
     }
 
 }

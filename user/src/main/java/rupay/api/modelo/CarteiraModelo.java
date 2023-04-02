@@ -3,6 +3,9 @@ package rupay.api.modelo;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,11 +29,13 @@ public class CarteiraModelo{
     
     private float saldo;
 
-    @OneToMany(mappedBy = "carteira")
-    private List<TransacaoModelo> transacao = new ArrayList<TransacaoModelo>();
-
     @OneToOne
     @JoinColumn(name = "id_cliente")
+    @JsonBackReference
     private ClienteModelo cliente;
+
+    @OneToMany(mappedBy = "carteira")
+    @JsonManagedReference
+    private List<TransacaoModelo> transacoes = new ArrayList<TransacaoModelo>();
 
 }

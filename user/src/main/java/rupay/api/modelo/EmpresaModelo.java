@@ -25,6 +25,5 @@ public class EmpresaModelo{
     private String nomeEmpresa;
     private String cnpj;
     private String universidade;
-    private String codigo;
 
 }

@@ -1,5 +1,7 @@
 package rupay.api.servico;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,39 +20,51 @@ public class RefeicaoServico {
     @Autowired
     private RespostaModelo resp;
 
+    //Listar Refeições
     public Iterable<RefeicaoModelo> listar(){
         return repo.findAll();
     }
 
-    // cadastrar ou alterar refeicao
-    public ResponseEntity<?> cadastrarAlterar(RefeicaoModelo modelo, String acao){
+    //Buscar Refeições
+    public Optional<RefeicaoModelo> buscar(long id){
+        return repo.findById(id);
+    }
 
-        if (Float.toString(modelo.getValor()) == "") {
+    //Cadastrar e Editar Refeições
+    public ResponseEntity<?> cadastrarAlterar(RefeicaoModelo model, String acao){
+
+        if (model.getValor() == 0) {
             resp.setMensagem("O valor da refeição é obrigatório!");
             return new ResponseEntity<RespostaModelo>(resp, HttpStatus.BAD_REQUEST);
-        }else if (modelo.getData().equals("")){
+        }else if (model.getData() == null){
             resp.setMensagem("A data da refeição é obrigatória!");
             return new ResponseEntity<RespostaModelo>(resp, HttpStatus.BAD_REQUEST);
-        }else if(modelo.getTipoRefeicao().equals("")){
+        }else if(model.getTipoRefeicao() == null){
             resp.setMensagem("O tipo da refeição é obrigatório!");
             return new ResponseEntity<RespostaModelo>(resp, HttpStatus.BAD_REQUEST);
-        }else if(modelo.getDescricao().equals("")){
+        }else if(model.getDescricao().equals("") || model.getDescricao().equals("")){
             resp.setMensagem("A descrição da refeição é obrigatória!");
             return new ResponseEntity<RespostaModelo>(resp, HttpStatus.BAD_REQUEST);
         }else{
             if (acao.equals("cadastrar")) {
-                return new ResponseEntity<RefeicaoModelo>(repo.save(modelo), HttpStatus.CREATED);
+                return new ResponseEntity<RefeicaoModelo>(repo.save(model), HttpStatus.CREATED);
             }else{
-                return new ResponseEntity<RefeicaoModelo>(repo.save(modelo), HttpStatus.OK);
+                return new ResponseEntity<RefeicaoModelo>(repo.save(model), HttpStatus.OK);
             }
         }
     }
 
-    // remover refeicao
+    // Remover Refeições
     public ResponseEntity<RespostaModelo> remover(Long id){
-        repo.deleteById(id);
-        resp.setMensagem("O produto foi removido com sucesso!");
-        return new ResponseEntity<RespostaModelo>(resp, HttpStatus.OK);
+
+        if (repo.findById(id).isPresent()) {
+            repo.deleteById(id);
+            resp.setMensagem("A refeição foi removida com sucesso!");
+            return new ResponseEntity<RespostaModelo>(resp, HttpStatus.OK);
+        }else{
+            resp.setMensagem("Refeição não encontrada!");
+            return new ResponseEntity<RespostaModelo>(resp,HttpStatus.BAD_REQUEST);
+        }
     }
     
 }

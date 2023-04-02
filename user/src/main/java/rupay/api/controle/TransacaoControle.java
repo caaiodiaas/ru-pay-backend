@@ -1,5 +1,7 @@
 package rupay.api.controle;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,5 +43,8 @@ public class TransacaoControle {
         return serv.listar();
     }
 
-  
+    @GetMapping("/transacao/buscar/{id}")
+    public Optional<TransacaoModelo> buscar(@PathVariable long id){
+        return serv.buscar(id);
+    }
 }

@@ -1,5 +1,7 @@
 package rupay.api.controle;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,6 +40,11 @@ public class RefeicaoControle {
     @GetMapping("/refeicao/listar")
     public Iterable<RefeicaoModelo> listar(){
         return serv.listar();
+    }
+
+    @GetMapping("/refeicao/buscar/{id}")
+    public Optional<RefeicaoModelo> buscar(@PathVariable long id){
+        return serv.buscar(id);
     }
 
 }

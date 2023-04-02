@@ -1,5 +1,7 @@
 package rupay.api.controle;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,5 +41,10 @@ public class EmpresaControle {
     @GetMapping("/empresa/listar")
     public Iterable<EmpresaModelo> listar(){
         return serv.listar();
+    }
+
+    @GetMapping("/empresa/buscar/{id}")
+    public Optional<EmpresaModelo> buscar(@PathVariable long id){
+        return serv.buscar(id);
     }
 }
