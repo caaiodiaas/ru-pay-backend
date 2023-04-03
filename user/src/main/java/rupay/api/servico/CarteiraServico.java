@@ -36,9 +36,12 @@ public class CarteiraServico {
             if (!(repoCliente.findById(model.getCliente().getId()).isPresent())) {
                 resp.setMensagem("Cliente não encontrado!");
                 return new ResponseEntity<RespostaModelo>(resp,HttpStatus.BAD_REQUEST);
+            }else if(repoCliente.findById(model.getCliente().getId()).get().getCarteira() != null){
+                resp.setMensagem("Esse cliente já possui uma carteira");
+                return new ResponseEntity<RespostaModelo>(resp,HttpStatus.BAD_REQUEST);
             }else if(acao.equals("cadastrar")){
                 return new ResponseEntity<CarteiraModelo>(repo.save(model),HttpStatus.CREATED);
-            } else{
+            }else{
                 return new ResponseEntity<CarteiraModelo>(repo.save(model),HttpStatus.OK);
             }
             
