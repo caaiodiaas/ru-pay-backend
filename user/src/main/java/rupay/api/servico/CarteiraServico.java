@@ -28,23 +28,26 @@ public class CarteiraServico {
 
     //Cadastrar e Editar Carteiras
     public ResponseEntity<?> cadastrarAlterar(CarteiraModelo model, String acao){   
-        if(model.getCliente() == null){
-            resp.setMensagem("O cliente deve ser informado");
-            return new ResponseEntity<RespostaModelo>(resp,HttpStatus.BAD_REQUEST);
-
+        if(acao.equals("cadastrar")){
+            if(model.getCliente() == null){
+                    resp.setMensagem("O cliente deve ser informado");
+                    return new ResponseEntity<RespostaModelo>(resp,HttpStatus.BAD_REQUEST);
+                }else if(repoCliente.findById(model.getCliente().getId()).get().getCarteira() != null){
+                    resp.setMensagem("Esse cliente já possui uma carteira");
+                    return new ResponseEntity<RespostaModelo>(resp,HttpStatus.BAD_REQUEST);
+                }            if (!(repoCliente.findById(model.getCliente().getId()).isPresent())) {
+                    resp.setMensagem("Cliente não encontrado!");
+                    return new ResponseEntity<RespostaModelo>(resp,HttpStatus.BAD_REQUEST);
+                }else{
+                    return new ResponseEntity<CarteiraModelo>(repo.save(model),HttpStatus.CREATED);
+                }
         }else{
-            if (!(repoCliente.findById(model.getCliente().getId()).isPresent())) {
-                resp.setMensagem("Cliente não encontrado!");
-                return new ResponseEntity<RespostaModelo>(resp,HttpStatus.BAD_REQUEST);
-            }else if(repoCliente.findById(model.getCliente().getId()).get().getCarteira() != null){
-                resp.setMensagem("Esse cliente já possui uma carteira");
-                return new ResponseEntity<RespostaModelo>(resp,HttpStatus.BAD_REQUEST);
-            }else if(acao.equals("cadastrar")){
-                return new ResponseEntity<CarteiraModelo>(repo.save(model),HttpStatus.CREATED);
-            }else{
+            if (repo.findById(model.getId()).isPresent()) {
                 return new ResponseEntity<CarteiraModelo>(repo.save(model),HttpStatus.OK);
+            }else{
+                resp.setMensagem("Carteira não encontrada!");
+                return new ResponseEntity<RespostaModelo>(resp,HttpStatus.BAD_REQUEST);
             }
-            
         }  
 
     }

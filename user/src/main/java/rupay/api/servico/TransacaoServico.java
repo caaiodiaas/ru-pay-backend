@@ -27,29 +27,35 @@ public class TransacaoServico {
 
 
     //Cadastrar e Editar Transacoes
-    public ResponseEntity<?> cadastrarAlterar(TransacaoModelo model,String acao){     
+    public ResponseEntity<?> cadastrarAlterar(TransacaoModelo model,String acao){  
         
-
-        if(model.getCarteira() == null){
-            resp.setMensagem("A carteira deve ser informada");
-            return new ResponseEntity<RespostaModelo>(resp,HttpStatus.BAD_REQUEST);
-        }else if(model.getData() == null){
-            resp.setMensagem("A data é obrigatória");
-            return new ResponseEntity<RespostaModelo>(resp,HttpStatus.BAD_REQUEST);
-        }else if(model.getValor() == 0){
-            resp.setMensagem("O valor é obrigatório");
-            return new ResponseEntity<RespostaModelo>(resp,HttpStatus.BAD_REQUEST);
+        if(acao.equals("cadastrar")){
+            if(model.getCarteira() == null){
+                resp.setMensagem("A carteira deve ser informada");
+                return new ResponseEntity<RespostaModelo>(resp,HttpStatus.BAD_REQUEST);
+            }else if(model.getData() == null){
+                resp.setMensagem("A data é obrigatória");
+                return new ResponseEntity<RespostaModelo>(resp,HttpStatus.BAD_REQUEST);
+            }else if(model.getValor() == 0){
+                resp.setMensagem("O valor é obrigatório");
+                return new ResponseEntity<RespostaModelo>(resp,HttpStatus.BAD_REQUEST);
+            }else{
+                if (!(repoCarteira.findById(model.getCarteira().getId()).isPresent())) {
+                    resp.setMensagem("Carteira não encontrada!");
+                    return new ResponseEntity<RespostaModelo>(resp,HttpStatus.BAD_REQUEST);
+                }else{
+                    return new ResponseEntity<TransacaoModelo>(repo.save(model),HttpStatus.CREATED);
+                }
+            }
         }else{
-            if (!(repoCarteira.findById(model.getCarteira().getId()).isPresent())) {
+            if (repo.findById(model.getId()).isPresent()) {
+                return new ResponseEntity<TransacaoModelo>(repo.save(model),HttpStatus.OK);
+            }else{
                 resp.setMensagem("Carteira não encontrada!");
                 return new ResponseEntity<RespostaModelo>(resp,HttpStatus.BAD_REQUEST);
-            }else if(acao.equals("cadastrar")){
-                return new ResponseEntity<TransacaoModelo>(repo.save(model),HttpStatus.CREATED);
-            } else{
-                return new ResponseEntity<TransacaoModelo>(repo.save(model),HttpStatus.OK);
             }
-            
         }  
+        
     }
 
     //Listar Transacoes
