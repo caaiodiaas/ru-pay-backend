@@ -39,6 +39,9 @@ public class TransacaoServico {
             }else if(model.getValor() == 0){
                 resp.setMensagem("O valor é obrigatório");
                 return new ResponseEntity<RespostaModelo>(resp,HttpStatus.BAD_REQUEST);
+            }else if(model.getTipoTransacao() == null){
+                resp.setMensagem("O tipo da transação é obrigatório");
+                return new ResponseEntity<RespostaModelo>(resp,HttpStatus.BAD_REQUEST);
             }else{
                 if (!(repoCarteira.findById(model.getCarteira().getId()).isPresent())) {
                     resp.setMensagem("Carteira não encontrada!");

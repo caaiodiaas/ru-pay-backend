@@ -25,6 +25,12 @@ public class TransacaoModelo{
     private Long id;
     private Date data;
     private float valor;
+
+    public enum TipoTransacao  {
+        ALMOCO, JANTAR, DEPOSITO;
+    }
+
+    private TipoTransacao tipoTransacao;
     
     @ManyToOne
     @JoinColumn(name = "id_carteira")
